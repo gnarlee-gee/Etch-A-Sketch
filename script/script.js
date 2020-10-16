@@ -4,6 +4,7 @@ font.href = 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&displa
 document.head.appendChild(font);
 
 document.body.style = 'font-family: "Roboto", sans-serif;';
+document.body.style.backgroundColor = '#ff2b2b';
 
 const wrapper = document.createElement('div');
 wrapper.classList.add('wrapper');
@@ -26,7 +27,15 @@ const menuBar = document.createElement('div');
 menuBar.classList.add('menu-bar');
 wrapper.appendChild(menuBar);
 const menuClass = document.querySelector('.menu-bar');
-menuClass.setAttribute('style', 'display: flex; width: 500px; height: 50px; align-self: start;')
+menuClass.setAttribute('style', 
+                        `display: flex; 
+                        width: 500px; 
+                        height: 50px; 
+                        align-self: start; 
+                        justify-content: space-between; 
+                        background-color: LightBlue; 
+                        border-top-left-radius: 20px;
+                        border-top-right-radius: 20px;`)
 
 const eraseBtn = document.createElement('button');
 eraseBtn.classList.add('erase-btn');
@@ -46,9 +55,61 @@ eraseClass.setAttribute('style',
                         align-items: center;
                         font-size: 14px;
                         font-weight: bold;
-                        background-color: #00eeff;
-                        color: white;`);
+                        background-color: LightSlateGrey;
+                        color: HoneyDew;
+                        cursor:pointer;`
+);
 
+// const colorTitle = document.createElement('div');
+// colorTitle.textContent = 'Colors';
+// colorTitle.setAttribute('style', 
+//                         `text-align: center; 
+//                         align-self: center; 
+//                         margin-left: 20px; 
+//                         color: HoneyDew;
+//                         font-size: 28px;
+//                         font-weight: 500;`)
+// menuBar.appendChild(colorTitle);
+
+//black, gray, green, purple, blue, brown, white, red, yellow, teal, orange, pink
+const colorArray = [
+    ['black', 'DarkGrey', 'Green', 'MediumPurple', 'DodgerBlue', 'Chocolate'],
+    ['Azure', 'Red', 'Yellow', 'DarkTurquoise', 'DarkOrange', 'DeepPink']
+]
+const colorMenu = document.createElement('div');
+colorMenu.setAttribute('style',
+    `width: 30%; 
+                        height: 80%;
+                        margin-left: 20px;
+                        display: grid;
+                        align-self: flex-end;
+                        margin-right: 40px;
+                        margin-bottom: 5px; 
+                        grid-template-columns: repeat(6, 1fr);
+                        grid-template-rows: repeat(2, 1fr);`);
+menuBar.appendChild(colorMenu);
+for (let i = 1; i < 3; i++) {
+    for (let j = 1; j < 7; j++) {
+        const color = document.createElement('div');
+        color.classList.add(`color-row${i}-column${j}-${colorArray[i-1][j-1]}`);
+        colorMenu.appendChild(color);
+        color.setAttribute('style',
+                            `grid-column: ${j}/${j+1};
+                            grid-row: ${i}/${i+1};
+                            background-color: ${colorArray[i-1][j-1]};
+                            border: 2px solid LightBlue;
+                            border-radius: 40%;`);
+    }
+}
+
+
+
+
+let r = Math.floor(Math.random() * (255 - 0 + 1) + 0);
+let g = Math.floor(Math.random() * (255 - 0 + 1) + 0);
+let b = Math.floor(Math.random() * (255 - 0 + 1) + 0);
+
+let randomColor = `rgb(${r + ", " + g + ", " + b})`;
 
 const container = document.createElement('div');
 container.classList.add('container');
@@ -58,9 +119,7 @@ let gridSize;
 let grid = 20;
 if (sessionStorage.getItem(gridSize)) {
     grid = parseInt(sessionStorage.getItem(gridSize));
-    console.log('grid is ', grid)
 }
-console.log(grid)
 
 container.setAttribute('style',
     `background-color: #e6e6e6;
@@ -92,12 +151,9 @@ wrapper.addEventListener('mouseup', function () {
     isDrawing = false;
 })
 
-let r = Math.floor(Math.random() * (255 - 0 + 1) + 0);
-let g = Math.floor(Math.random() * (255 - 0 + 1) + 0);
-let b = Math.floor(Math.random() * (255 - 0 + 1) + 0);
 
-let randomColor = `rgb(${r + ", " + g + ", " + b})`;
-console.log(randomColor)
+
+
 
 container.addEventListener('mouseenter', function () {
     if (!isDrawing) {
@@ -173,10 +229,24 @@ eraseBtn.addEventListener('click', function () {
     let newSize = 101;
     while (newSize > 100) {
         newSize = parseInt(prompt('What size would you like the board? \n(Max value: 100)'));
+        if (newSize < 1) {
+            alert('Must be greater than 0!');
+            newSize = 101;
+        }
         sessionStorage.setItem(gridSize, newSize);
     }
     window.location.reload();
 });
+
+eraseBtn.addEventListener('mouseenter', function () {
+    eraseBtn.style.backgroundColor = 'LightGray';
+
+})
+
+eraseBtn.addEventListener('mouseleave', function () {
+    eraseBtn.style.backgroundColor = 'LightSlateGray';
+
+})
 
 // container.appendChild(clearBtn);
 
