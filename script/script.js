@@ -83,17 +83,17 @@ randomClass.setAttribute('style',
                         text-align: center;`
 );
 
-randomColorBtn.addEventListener('mouseenter', function() {
+randomColorBtn.addEventListener('mouseenter', function () {
     randomColorBtn.style.backgroundColor = 'DarkGoldenRod';
 })
 
-randomColorBtn.addEventListener('mouseleave', function() {
+randomColorBtn.addEventListener('mouseleave', function () {
     randomColorBtn.style.backgroundColor = 'Gold';
 })
 
 
-let penColor = ['rgb(0, 133, 104)'];
-randomColorBtn.addEventListener('click', function() {
+let penColor = ['rgb(0, 0, 0)'];
+randomColorBtn.addEventListener('click', function () {
     let r = Math.floor(Math.random() * (255 - 0 + 1) + 0);
     let g = Math.floor(Math.random() * (255 - 0 + 1) + 0);
     let b = Math.floor(Math.random() * (255 - 0 + 1) + 0);
@@ -106,7 +106,10 @@ const colorArray = [
     ['black', 'DarkGrey', 'Green', 'MediumPurple', 'DodgerBlue', 'Chocolate'],
     ['Azure', 'Red', 'Yellow', 'DarkTurquoise', 'DarkOrange', 'DeepPink']
 ]
-const rgbColorArray = [['rgb(0, 0, 0)',],[]]
+const rgbColorArray = [
+    ['rgb(0, 0, 0)', 'rgb(169, 169, 169)', 'rgb(0, 128, 0)', 'rgb(147, 112, 219)', 'rgb(30, 144, 255)', 'rgb(210, 105, 30)'],
+    ['rgb(240, 255, 255)', 'rgb(255, 0, 0)', 'rgb(255, 255, 0)', 'rgb(0, 206, 209)', 'rgb(255, 140, 0)', 'rgb(255, 20, 147)']
+]
 
 const colorMenu = document.createElement('div');
 colorMenu.setAttribute('style',
@@ -132,7 +135,7 @@ for (let i = 1; i < 3; i++) {
                             border: 2px solid LightBlue;
                             border-radius: 40%;`);
         const colorButton = document.querySelector(`.color-row${i}-column${j}-${colorArray[i-1][j-1]}`);
-        colorButton.addEventListener('click', function(){
+        colorButton.addEventListener('click', function () {
             penColor.push(`${rgbColorArray[i-1][j-1]}`)
         })
     }
@@ -190,7 +193,7 @@ container.addEventListener('mouseenter', function () {
         const nodes = document.querySelectorAll('.container > *');
         for (let i = 0; i < nodes.length; i++) {
             nodes[i].addEventListener('mouseenter', function () {
-                if (penColor.includes(nodes[i].style.backgroundColor)){} else {
+                if (penColor.includes(nodes[i].style.backgroundColor)) {} else {
                     nodes[i].style.backgroundColor = '#363636';
                 }
             })
@@ -206,7 +209,7 @@ container.addEventListener('mouseenter', function () {
 })
 
 container.addEventListener('mousedown', function () {
-    isDrawing = true; 
+    isDrawing = true;
     const nodes = document.querySelectorAll('.container > *');
     for (let i = 0; i < nodes.length; i++) {
         nodes[i].addEventListener('click', function () {
@@ -215,13 +218,13 @@ container.addEventListener('mousedown', function () {
         nodes[i].addEventListener('dblclick', function () {
             nodes[i].style.backgroundColor = penColor[penColor.length - 1];
         })
-        nodes[i].addEventListener('mouseenter', function () {        
+        nodes[i].addEventListener('mouseenter', function () {
             if (isDrawing === true) {
                 nodes[i].style.backgroundColor = penColor[penColor.length - 1];
             }
         })
         container.addEventListener('mouseleave', function () {
-                isDrawing = false;
+            isDrawing = false;
         })
 
     }
