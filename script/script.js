@@ -20,7 +20,18 @@ wrapperClass.setAttribute('style',
                         display: flex;
                         flex-flow: column;
                         justify-content: center;
-                        align-items: center;`);
+                        align-items: center;`
+);
+
+const etchTitle = document.createElement('div');
+etchTitle.classList.add('etch-title');
+etchTitle.textContent = 'EtchASketch';
+wrapper.appendChild(etchTitle);
+const etchClass = document.querySelector('.etch-title');
+etchClass.setAttribute('style',
+                        `color: Gold;
+                        font-size: 32px;
+                        font-weight: 500;`)
 
 
 const menuBar = document.createElement('div');
@@ -140,12 +151,6 @@ for (let i = 1; i < 3; i++) {
         })
     }
 }
-// get the rgb values of the named colors and push them as a rgb() string above
-// https://www.w3schools.com/cssref/css_colors.asp
-
-
-
-
 
 const container = document.createElement('div');
 container.classList.add('container');
