@@ -27,8 +27,8 @@ const menuBar = document.createElement('div');
 menuBar.classList.add('menu-bar');
 wrapper.appendChild(menuBar);
 const menuClass = document.querySelector('.menu-bar');
-menuClass.setAttribute('style', 
-                        `display: flex; 
+menuClass.setAttribute('style',
+    `display: flex; 
                         width: 500px; 
                         height: 50px; 
                         align-self: start; 
@@ -44,38 +44,70 @@ menuBar.appendChild(eraseBtn);
 const eraseClass = document.querySelector('.erase-btn');
 eraseClass.setAttribute('style',
     `height: 30px; 
-                        width: 75px;
+                        width: 65px;
                         display: flex; 
                         text-align: center; 
                         align-self: center;
-                        border: 2px solid #b5b5b5; 
-                        border-radius: 20px;
+                        border-radius: 10px;
                         margin: 15px;
                         justify-content: center;
                         align-items: center;
                         font-size: 14px;
                         font-weight: bold;
                         background-color: LightSlateGrey;
-                        color: HoneyDew;
+                        color: BlueViolet;
                         cursor:pointer;`
 );
 
-// const colorTitle = document.createElement('div');
-// colorTitle.textContent = 'Colors';
-// colorTitle.setAttribute('style', 
-//                         `text-align: center; 
-//                         align-self: center; 
-//                         margin-left: 20px; 
-//                         color: HoneyDew;
-//                         font-size: 28px;
-//                         font-weight: 500;`)
-// menuBar.appendChild(colorTitle);
+const randomColorBtn = document.createElement('button');
+randomColorBtn.textContent = 'Random Color';
+randomColorBtn.classList.add('random-btn');
+menuBar.appendChild(randomColorBtn);
 
-//black, gray, green, purple, blue, brown, white, red, yellow, teal, orange, pink
+const randomClass = document.querySelector('.random-btn');
+
+randomClass.setAttribute('style',
+    `width: 15%; 
+                        height: 80%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin-left: 120px;
+                        margin-bottom: 5px;
+                        margin-top: 5px;
+                        background-color: Gold;
+                        color: BlueViolet;
+                        font-size: 10px;
+                        font-weight: bold;
+                        border-radius: 20px;
+                        text-align: center;`
+);
+
+randomColorBtn.addEventListener('mouseenter', function() {
+    randomColorBtn.style.backgroundColor = 'DarkGoldenRod';
+})
+
+randomColorBtn.addEventListener('mouseleave', function() {
+    randomColorBtn.style.backgroundColor = 'Gold';
+})
+
+
+let penColor = ['rgb(0, 133, 104)'];
+randomColorBtn.addEventListener('click', function() {
+    let r = Math.floor(Math.random() * (255 - 0 + 1) + 0);
+    let g = Math.floor(Math.random() * (255 - 0 + 1) + 0);
+    let b = Math.floor(Math.random() * (255 - 0 + 1) + 0);
+    penColor.push(`rgb(${r + ", " + g + ", " + b})`);
+})
+
+
+
 const colorArray = [
     ['black', 'DarkGrey', 'Green', 'MediumPurple', 'DodgerBlue', 'Chocolate'],
     ['Azure', 'Red', 'Yellow', 'DarkTurquoise', 'DarkOrange', 'DeepPink']
 ]
+const rgbColorArray = [['rgb(0, 0, 0)',],[]]
+
 const colorMenu = document.createElement('div');
 colorMenu.setAttribute('style',
     `width: 30%; 
@@ -94,22 +126,23 @@ for (let i = 1; i < 3; i++) {
         color.classList.add(`color-row${i}-column${j}-${colorArray[i-1][j-1]}`);
         colorMenu.appendChild(color);
         color.setAttribute('style',
-                            `grid-column: ${j}/${j+1};
+            `grid-column: ${j}/${j+1};
                             grid-row: ${i}/${i+1};
                             background-color: ${colorArray[i-1][j-1]};
                             border: 2px solid LightBlue;
                             border-radius: 40%;`);
+        const colorButton = document.querySelector(`.color-row${i}-column${j}-${colorArray[i-1][j-1]}`);
+        colorButton.addEventListener('click', function(){
+            penColor.push(`${rgbColorArray[i-1][j-1]}`)
+        })
     }
 }
+// get the rgb values of the named colors and push them as a rgb() string above
+// https://www.w3schools.com/cssref/css_colors.asp
 
 
 
 
-let r = Math.floor(Math.random() * (255 - 0 + 1) + 0);
-let g = Math.floor(Math.random() * (255 - 0 + 1) + 0);
-let b = Math.floor(Math.random() * (255 - 0 + 1) + 0);
-
-let randomColor = `rgb(${r + ", " + g + ", " + b})`;
 
 const container = document.createElement('div');
 container.classList.add('container');
@@ -129,7 +162,8 @@ container.setAttribute('style',
                         user-drag: none;
                         user-select: none;
                         grid-template-columns: repeat(${grid}, 1fr);
-                        grid-template-rows: repeat(${grid}, 1fr)`);
+                        grid-template-rows: repeat(${grid}, 1fr)`
+);
 
 
 // creates 1200 divs
@@ -151,21 +185,17 @@ wrapper.addEventListener('mouseup', function () {
     isDrawing = false;
 })
 
-
-
-
-
 container.addEventListener('mouseenter', function () {
     if (!isDrawing) {
         const nodes = document.querySelectorAll('.container > *');
         for (let i = 0; i < nodes.length; i++) {
             nodes[i].addEventListener('mouseenter', function () {
-                if (nodes[i].style.backgroundColor == randomColor) {} else {
+                if (penColor.includes(nodes[i].style.backgroundColor)){} else {
                     nodes[i].style.backgroundColor = '#363636';
                 }
             })
             nodes[i].addEventListener('mouseleave', function () {
-                if (nodes[i].style.backgroundColor == randomColor) {} else {
+                if (penColor.includes(nodes[i].style.backgroundColor)) {} else {
                     setTimeout(function () {
                         nodes[i].style.backgroundColor = '#e6e6e6';
                     }, 50);
@@ -176,50 +206,26 @@ container.addEventListener('mouseenter', function () {
 })
 
 container.addEventListener('mousedown', function () {
-    isDrawing = true;
+    isDrawing = true; 
     const nodes = document.querySelectorAll('.container > *');
     for (let i = 0; i < nodes.length; i++) {
         nodes[i].addEventListener('click', function () {
-            nodes[i].style.backgroundColor = randomColor;
+            nodes[i].style.backgroundColor = penColor[penColor.length - 1];
         })
         nodes[i].addEventListener('dblclick', function () {
-            nodes[i].style.backgroundColor = randomColor;
+            nodes[i].style.backgroundColor = penColor[penColor.length - 1];
         })
-        nodes[i].addEventListener('mouseenter', function () {
+        nodes[i].addEventListener('mouseenter', function () {        
             if (isDrawing === true) {
-                nodes[i].style.backgroundColor = randomColor;
+                nodes[i].style.backgroundColor = penColor[penColor.length - 1];
             }
         })
-        nodes[i].addEventListener('mouseup', function () {
-            if (isDrawing === true) {
+        container.addEventListener('mouseleave', function () {
                 isDrawing = false;
-            }
         })
+
     }
 })
-
-// container.addEventListener('mouseup', function () {});
-
-// const firstRow = document.createElement('div');
-// firstRow.classList.add('first-row');
-// container.appendChild(firstRow);
-// firstRow.setAttribute('style', 'grid-column: 1/101; grid-row: 1/3; background-color: white;')
-
-// const clearBtn = document.createElement('div');
-// clearBtn.classList.add('clear-btn');
-
-// clearBtn.setAttribute('style',
-//     `grid-column: span 10;
-//                         grid-row: 1/3;
-//                         display: grid;
-//                         align-items: center; 
-//                         border: 2px solid #555;
-//                         border-radius: 50px;
-//                         text-align: center;
-//                         margin: 10px;
-//                         font-weight: 500;
-//                         color: #555`);
-// clearBtn.textContent = 'Erase';
 
 eraseBtn.addEventListener('click', function () {
     const nodes = document.querySelectorAll('.container > *');
@@ -247,22 +253,3 @@ eraseBtn.addEventListener('mouseleave', function () {
     eraseBtn.style.backgroundColor = 'LightSlateGray';
 
 })
-
-// container.appendChild(clearBtn);
-
-
-// const colors = document.createElement('div');
-// colors.classList.add('colors');
-
-// colors.setAttribute('style',
-//                     `grid-column: span 10;
-//                     grid-row: 1/3;
-//                     display: grid;
-//                     align-items: center; 
-//                     text-align: center;
-//                     font-weight: 500;
-//                     color: #555`);
-// colors.textContent = 'Colors';
-// container.appendChild(colors);
-
-// TODO: Write loop to create divs for colors, then make the divs be colored, create random button
