@@ -25,11 +25,11 @@ wrapperClass.setAttribute('style',
 
 const etchTitle = document.createElement('div');
 etchTitle.classList.add('etch-title');
-etchTitle.textContent = 'EtchASketch';
+etchTitle.textContent = 'Etch A Sketch';
 wrapper.appendChild(etchTitle);
 const etchClass = document.querySelector('.etch-title');
 etchClass.setAttribute('style',
-                        `color: Gold;
+    `color: Gold;
                         font-size: 32px;
                         font-weight: 500;`)
 
@@ -46,7 +46,8 @@ menuClass.setAttribute('style',
                         justify-content: space-between; 
                         background-color: LightBlue; 
                         border-top-left-radius: 20px;
-                        border-top-right-radius: 20px;`)
+                        border-top-right-radius: 20px;`
+)
 
 const eraseBtn = document.createElement('button');
 eraseBtn.classList.add('erase-btn');
